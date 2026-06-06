@@ -11,7 +11,6 @@
   <meta name="description" content="Aidan Mansell. London based guitarist, guitar technician, playback tech and producer." />
 
   <link rel="preload" as="image" href="/images/hero.webp" />
-  <link rel="preconnect" href="https://image.mux.com" />
   <link rel="preconnect" href="https://stream.mux.com" />
   <link rel="preconnect" href="https://player.mux.com" />
 
@@ -377,8 +376,7 @@
       min-height:560px;
     }
 
-    .reel-side,
-    .reel-main{
+    .reel-panel{
       aspect-ratio:9/16;
       width:100%;
       border:1px solid var(--ink);
@@ -389,10 +387,10 @@
 
     .reel-side{
       cursor:pointer;
-      opacity:.58;
+      opacity:.55;
       transform:scale(.92);
       transition:opacity .35s ease, transform .35s ease, filter .35s ease;
-      filter:grayscale(.15) contrast(.92);
+      filter:grayscale(.12) contrast(.92);
       padding:0;
     }
 
@@ -402,13 +400,33 @@
       filter:grayscale(0) contrast(1);
     }
 
-    .reel-side img{
+    .reel-main{
+      transform:translateY(0);
+      transition:transform .35s ease, opacity .35s ease;
+      box-shadow:0 18px 50px rgba(17,17,17,.12);
+    }
+
+    .reel-main.is-changing{
+      opacity:.35;
+      transform:translateY(8px) scale(.985);
+    }
+
+    .video-player,
+    .preview-player{
       width:100%;
       height:100%;
-      object-fit:contain;
-      object-position:center;
       display:block;
       background:#111;
+      --media-object-fit:cover;
+      --media-object-position:center;
+      --media-primary-color:#f4f1ea;
+      --media-secondary-color:#111111;
+      --media-control-background:rgba(0,0,0,.22);
+      --media-control-hover-background:rgba(0,0,0,.36);
+    }
+
+    .preview-player{
+      pointer-events:none;
     }
 
     .reel-side::after{
@@ -424,30 +442,7 @@
       letter-spacing:.12em;
       font-size:11px;
       backdrop-filter:blur(8px);
-    }
-
-    .reel-main{
-      transform:translateY(0);
-      transition:transform .35s ease, opacity .35s ease;
-      box-shadow:0 18px 50px rgba(17,17,17,.12);
-    }
-
-    .reel-main.is-changing{
-      opacity:.35;
-      transform:translateY(8px) scale(.985);
-    }
-
-    .video-player{
-      width:100%;
-      height:100%;
-      display:block;
-      background:#111;
-      --media-object-fit:contain;
-      --media-object-position:center;
-      --media-primary-color:#f4f1ea;
-      --media-secondary-color:#111111;
-      --media-control-background:rgba(0,0,0,.22);
-      --media-control-hover-background:rgba(0,0,0,.36);
+      z-index:4;
     }
 
     .reel-caption{
@@ -1012,11 +1007,11 @@
 
         <div class="watch-shell" aria-label="Video carousel">
           <div class="reel-carousel">
-            <button class="reel-side" id="prevPreview" type="button" aria-label="Previous video preview"></button>
+            <button class="reel-panel reel-side" id="prevPreview" type="button" aria-label="Previous video preview"></button>
 
-            <div class="reel-main" id="mainReel"></div>
+            <div class="reel-panel reel-main" id="mainReel"></div>
 
-            <button class="reel-side" id="nextPreview" type="button" aria-label="Next video preview"></button>
+            <button class="reel-panel reel-side" id="nextPreview" type="button" aria-label="Next video preview"></button>
           </div>
 
           <div class="reel-caption">
@@ -1192,12 +1187,12 @@
 
   <script is:inline>
     const videoItems = [
-      { playbackId: "3oM00bx8DJ01WVeSrZ1rBHnCGt7x01EDinT2yoFj6Fmido", thumbTime: 3 },
-      { playbackId: "WZFBswhStjPED87pePirmR00fPIOtHW9vElxUNZDy00q00", thumbTime: 3 },
-      { playbackId: "o3SUEQnAKLHahw1WyyKJlnk7fWtKyG2ahKty5Jz86XE", thumbTime: 3 },
-      { playbackId: "tufJEABNMT01wLGkgkGGk5j6DgVCyVOONDVeAUlrx4Is", thumbTime: 3 },
-      { playbackId: "MSv8ow9h9e9dtoT02RJWi01sPH98DqYKdN1xdXXoCoWNI", thumbTime: 3 },
-      { playbackId: "fXogupp27a402VtojlPAP8KmoHtOW3eSKKJkwB6liXIs", thumbTime: 3 }
+      { playbackId: "3oM00bx8DJ01WVeSrZ1rBHnCGt7x01EDinT2yoFj6Fmido", start: 2 },
+      { playbackId: "WZFBswhStjPED87pePirmR00fPIOtHW9vElxUNZDy00q00", start: 2 },
+      { playbackId: "o3SUEQnAKLHahw1WyyKJlnk7fWtKyG2ahKty5Jz86XE", start: 2 },
+      { playbackId: "tufJEABNMT01wLGkgkGGk5j6DgVCyVOONDVeAUlrx4Is", start: 2 },
+      { playbackId: "MSv8ow9h9e9dtoT02RJWi01sPH98DqYKdN1xdXXoCoWNI", start: 2 },
+      { playbackId: "fXogupp27a402VtojlPAP8KmoHtOW3eSKKJkwB6liXIs", start: 2 }
     ];
 
     const mainReel = document.getElementById("mainReel");
@@ -1222,8 +1217,17 @@
       return activeIndex === videoItems.length - 1 ? 0 : activeIndex + 1;
     }
 
-    function muxThumb(item){
-      return `https://image.mux.com/${item.playbackId}/thumbnail.jpg?time=${item.thumbTime || 3}&fit_mode=preserve`;
+    function playerMarkup(item, className, controls){
+      return `
+        <mux-player
+          class="${className}"
+          playback-id="${item.playbackId}"
+          stream-type="on-demand"
+          preload="metadata"
+          ${controls ? "controls" : ""}
+          ${controls ? "" : "muted autoplay loop playsinline"}
+        ></mux-player>
+      `;
     }
 
     function renderDots(){
@@ -1240,13 +1244,36 @@
       });
     }
 
+    function startPreviewPlayers(){
+      const previews = document.querySelectorAll(".preview-player");
+
+      previews.forEach((player) => {
+        const start = Number(player.dataset.start || 2);
+
+        const startAndPlay = () => {
+          try{
+            player.currentTime = start;
+            const playPromise = player.play();
+            if(playPromise && typeof playPromise.catch === "function"){
+              playPromise.catch(() => {});
+            }
+          }catch(error){}
+        };
+
+        player.addEventListener("loadedmetadata", startAndPlay, { once:true });
+
+        setTimeout(startAndPlay, 600);
+      });
+    }
+
     function renderPreview(button, index, label){
       const item = videoItems[index];
 
       button.dataset.label = `${label} ${pad(index + 1)}`;
-      button.innerHTML = `
-        <img src="${muxThumb(item)}" alt="${label} video ${index + 1}" loading="lazy" />
-      `;
+      button.innerHTML = playerMarkup(item, "preview-player", false);
+
+      const player = button.querySelector("mux-player");
+      player.dataset.start = item.start || 2;
     }
 
     function renderMain(){
@@ -1255,22 +1282,14 @@
       mainReel.classList.add("is-changing");
 
       setTimeout(() => {
-        mainReel.innerHTML = `
-          <mux-player
-            class="video-player"
-            playback-id="${item.playbackId}"
-            metadata-video-title="Aidan Mansell clip ${activeIndex + 1}"
-            stream-type="on-demand"
-            controls
-            preload="metadata"
-          ></mux-player>
-        `;
+        mainReel.innerHTML = playerMarkup(item, "video-player", true);
 
         count.textContent = `${pad(activeIndex + 1)} / ${pad(videoItems.length)}`;
 
         renderPreview(prevPreview, getPrevIndex(), "Previous");
         renderPreview(nextPreview, getNextIndex(), "Next");
         renderDots();
+        startPreviewPlayers();
 
         requestAnimationFrame(() => {
           mainReel.classList.remove("is-changing");
