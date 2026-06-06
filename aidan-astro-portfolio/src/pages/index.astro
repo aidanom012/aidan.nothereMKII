@@ -685,10 +685,373 @@
       .contact-links a{flex-direction:column}
       .photos-wall{column-count:1}
     }
+
+
+/* === CYBER SIGIL ORNAMENT LAYER === */
+/*
+  Cyber Sigil layout layer
+  Copy this file to: src/styles/cyber-sigil-layout.css
+  Import it in your Astro page/layout:
+  import "../styles/cyber-sigil-layout.css";
+*/
+
+:root{
+  --sigil-ink:#090909;
+  --sigil-paper:#f4f1ea;
+  --sigil-card:#fffaf0;
+  --sigil-red:#d90f28;
+}
+
+/* Let ornaments sit around the clean website without blocking clicks */
+.sigil-stage{
+  position:fixed;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+header,
+main{
+  position:relative;
+  z-index:5;
+}
+
+.sigil-fixed{
+  position:absolute;
+  display:block;
+  background-repeat:no-repeat;
+  background-size:contain;
+  image-rendering:auto;
+  opacity:.92;
+  mix-blend-mode:multiply;
+}
+
+.sigil-corner{
+  width:clamp(150px, 17vw, 300px);
+  aspect-ratio:1 / 1;
+}
+
+.sigil-tl{
+  top:76px;
+  left:18px;
+  background-image:url("/sigil-assets/corner-tl.png");
+}
+
+.sigil-tr{
+  top:76px;
+  right:18px;
+  background-image:url("/sigil-assets/corner-tr.png");
+}
+
+.sigil-bl{
+  bottom:18px;
+  left:18px;
+  background-image:url("/sigil-assets/corner-bl.png");
+}
+
+.sigil-br{
+  bottom:18px;
+  right:18px;
+  background-image:url("/sigil-assets/corner-br.png");
+}
+
+.sigil-side{
+  width:clamp(42px, 5vw, 82px);
+  height:clamp(260px, 46vh, 470px);
+  top:50%;
+  transform:translateY(-50%);
+  opacity:.65;
+}
+
+.sigil-side-left{
+  left:22px;
+  background-image:url("/sigil-assets/side-left.png");
+}
+
+.sigil-side-right{
+  right:22px;
+  background-image:url("/sigil-assets/side-right.png");
+}
+
+/* Give room for the page-frame ornaments on desktop */
+@media(min-width:1200px){
+  .wrap{
+    max-width:min(var(--max), calc(100vw - 230px));
+  }
+}
+
+/* Subtle paper dither, like the references but not noisy */
+body{
+  position:relative;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.18;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(9,9,9,.18) 1px, transparent 1.5px);
+  background-size:7px 7px;
+  mix-blend-mode:multiply;
+}
+
+/* Horizontal dividers between major sections */
+.sigil-divider{
+  width:min(760px, calc(100vw - 44px));
+  height:90px;
+  margin:18px auto -18px;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  image-rendering:auto;
+  opacity:.82;
+  pointer-events:none;
+}
+
+.sigil-divider.altar{
+  background-image:url("/sigil-assets/divider-altar.png");
+}
+
+.sigil-divider.star{
+  background-image:url("/sigil-assets/divider-star.png");
+}
+
+/* Make existing cards feel like framed ritual UI, not generic boxes */
+.hero-card,
+.work-item,
+.watch-shell,
+.detail-card,
+.photo-piece,
+.contact-links a,
+.about-strip{
+  position:relative;
+  box-shadow:4px 4px 0 rgba(9,9,9,.08);
+}
+
+.hero-card::before,
+.watch-shell::before,
+.about-strip::before,
+.detail-card::before,
+.work-item::before,
+.photo-piece::before{
+  content:"";
+  position:absolute;
+  top:6px;
+  left:6px;
+  width:54px;
+  height:54px;
+  background:url("/sigil-assets/card-corner-left.png") left top / contain no-repeat;
+  opacity:.7;
+  pointer-events:none;
+  z-index:2;
+}
+
+.hero-card::after,
+.watch-shell::after,
+.about-strip::after,
+.detail-card::after,
+.work-item::after,
+.photo-piece::after{
+  content:"";
+  position:absolute;
+  top:6px;
+  right:6px;
+  width:54px;
+  height:54px;
+  background:url("/sigil-assets/card-corner-right.png") right top / contain no-repeat;
+  opacity:.7;
+  pointer-events:none;
+  z-index:2;
+}
+
+/* Section-specific placement */
+.hero{
+  position:relative;
+  overflow:hidden;
+}
+
+.hero .wrap::before{
+  content:"";
+  position:absolute;
+  width:118px;
+  height:88px;
+  left:22px;
+  top:82px;
+  background:url("/sigil-assets/eye-panel.png") center / contain no-repeat;
+  opacity:.42;
+  pointer-events:none;
+}
+
+.hero .wrap::after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  right:33%;
+  top:86px;
+  background:url("/sigil-assets/halo-orb.png") center / contain no-repeat;
+  opacity:.38;
+  pointer-events:none;
+}
+
+.section-head h2{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.section-head h2::before{
+  content:"";
+  display:inline-block;
+  width:38px;
+  height:38px;
+  flex:0 0 auto;
+  background:url("/sigil-assets/star-orbit.png") center / contain no-repeat;
+  opacity:.7;
+}
+
+/* Use the smaller motifs as icons in your detail cards */
+.detail-card:nth-child(1)::before{ background-image:url("/sigil-assets/portal-arch.png"); opacity:.5; }
+.detail-card:nth-child(2)::before{ background-image:url("/sigil-assets/winged-emblem.png"); opacity:.5; }
+.detail-card:nth-child(3)::before{ background-image:url("/sigil-assets/star-large.png"); opacity:.45; }
+.detail-card:nth-child(4)::before{ background-image:url("/sigil-assets/eye-panel.png"); opacity:.5; }
+.detail-card:nth-child(5)::before{ background-image:url("/sigil-assets/halo-orb.png"); opacity:.45; }
+
+.detail-card{
+  overflow:hidden;
+}
+
+.detail-card .label,
+.detail-card h3,
+.detail-card p,
+.detail-card .micro{
+  position:relative;
+  z-index:3;
+}
+
+/* Floating section symbols: sparse, so the clean layout survives */
+#work,
+#watch,
+#details,
+#photos,
+#contact{
+  position:relative;
+}
+
+#work::after{
+  content:"";
+  position:absolute;
+  right:6vw;
+  top:68px;
+  width:120px;
+  height:120px;
+  background:url("/sigil-assets/star-cluster.png") center / contain no-repeat;
+  opacity:.23;
+  pointer-events:none;
+}
+
+#watch::before{
+  content:"";
+  position:absolute;
+  left:5vw;
+  top:120px;
+  width:120px;
+  height:120px;
+  background:url("/sigil-assets/star-large.png") center / contain no-repeat;
+  opacity:.2;
+  pointer-events:none;
+}
+
+#contact::after{
+  content:"";
+  position:absolute;
+  right:9vw;
+  bottom:42px;
+  width:160px;
+  height:180px;
+  background:url("/sigil-assets/portal-arch.png") center / contain no-repeat;
+  opacity:.38;
+  pointer-events:none;
+}
+
+/* Tighter Y2K/pixel typography accents without changing your whole brand */
+.eyebrow,
+.credit-label,
+.work-role,
+.detail-card .label,
+.carousel-count,
+.nav{
+  font-family:"Courier New", monospace;
+}
+
+.tag,
+.credit-tags span,
+.micro span{
+  border-radius:0;
+  font-family:"Courier New", monospace;
+}
+
+/* Mobile: keep only tiny accents; hide the big page frame */
+@media(max-width:900px){
+  .sigil-stage{
+    display:none;
+  }
+
+  body::before{
+    opacity:.1;
+  }
+
+  .sigil-divider{
+    height:56px;
+    margin:8px auto -10px;
+    opacity:.55;
+  }
+
+  .hero .wrap::before,
+  .hero .wrap::after,
+  #work::after,
+  #watch::before,
+  #contact::after{
+    display:none;
+  }
+
+  .hero-card::before,
+  .watch-shell::before,
+  .about-strip::before,
+  .detail-card::before,
+  .work-item::before,
+  .photo-piece::before,
+  .hero-card::after,
+  .watch-shell::after,
+  .about-strip::after,
+  .detail-card::after,
+  .work-item::after,
+  .photo-piece::after{
+    width:34px;
+    height:34px;
+    opacity:.45;
+  }
+}
+
   </style>
 </head>
 
 <body>
+  <div class="sigil-stage" aria-hidden="true">
+    <i class="sigil-fixed sigil-corner sigil-tl"></i>
+    <i class="sigil-fixed sigil-corner sigil-tr"></i>
+    <i class="sigil-fixed sigil-corner sigil-bl"></i>
+    <i class="sigil-fixed sigil-corner sigil-br"></i>
+  
+    <i class="sigil-fixed sigil-side sigil-side-left"></i>
+    <i class="sigil-fixed sigil-side sigil-side-right"></i>
+  </div>
+  
   <header>
     <div class="wrap nav">
       <a class="brand" href="#top">Aidan Mansell</a>
@@ -732,6 +1095,8 @@
         </aside>
       </div>
     </section>
+
+    <div class="sigil-divider altar" aria-hidden="true"></div>
 
     <div class="wrap stats">
       <div class="stat">
@@ -1027,6 +1392,8 @@
       </div>
     </section>
 
+    <div class="sigil-divider star" aria-hidden="true"></div>
+
     <section id="details">
       <div class="wrap">
         <div class="section-head">
@@ -1168,6 +1535,8 @@
         </div>
       </div>
     </section>
+
+    <div class="sigil-divider altar" aria-hidden="true"></div>
 
     <section id="contact">
       <div class="wrap contact">
