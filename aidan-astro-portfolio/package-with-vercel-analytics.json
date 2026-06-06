@@ -1,0 +1,15 @@
+{
+  "name": "aidan-astro-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@vercel/analytics": "latest",
+    "astro": "^5.0.0"
+  }
+}
