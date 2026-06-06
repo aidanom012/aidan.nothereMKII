@@ -30,9 +30,7 @@
 
     *{box-sizing:border-box}
 
-    html{
-      scroll-behavior:smooth;
-    }
+    html{scroll-behavior:smooth}
 
     body{
       margin:0;
@@ -385,61 +383,65 @@
 
     .reel-carousel{
       display:grid;
-      grid-template-columns:180px minmax(280px,390px) 180px;
-      gap:28px;
+      grid-template-columns:repeat(3, minmax(230px, 320px));
+      gap:18px;
       align-items:center;
       justify-content:center;
       min-height:560px;
     }
 
-    .reel-side{
-      height:260px;
-      border:1px solid rgba(17,17,17,.5);
-      background:transparent;
-      cursor:pointer;
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      text-align:left;
-      color:var(--muted);
-      transition:background .25s ease, color .25s ease, transform .25s ease;
-    }
-
-    .reel-side:hover{
-      background:var(--ink);
-      color:var(--bg);
-      transform:translateY(-3px);
-    }
-
-    .side-kicker{
-      font-size:11px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-
-    .side-number{
-      font-size:54px;
-      line-height:.85;
-      letter-spacing:-.08em;
-      color:inherit;
-    }
-
-    .side-action{
-      font-size:12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:inherit;
-    }
-
+    .reel-side,
     .reel-main{
       aspect-ratio:9/16;
+      width:100%;
       border:1px solid var(--ink);
       background:#111;
       overflow:hidden;
       position:relative;
+    }
+
+    .reel-side{
+      cursor:pointer;
+      opacity:.52;
+      transform:scale(.92);
+      transition:opacity .35s ease, transform .35s ease, filter .35s ease;
+      filter:grayscale(.18) contrast(.92);
+      padding:0;
+    }
+
+    .reel-side:hover{
+      opacity:.86;
+      transform:scale(.96);
+      filter:grayscale(0) contrast(1);
+    }
+
+    .reel-side img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+
+    .reel-side::after{
+      content:attr(data-label);
+      position:absolute;
+      left:12px;
+      bottom:12px;
+      border:1px solid rgba(244,241,234,.7);
+      color:#f4f1ea;
+      background:rgba(0,0,0,.32);
+      padding:8px 10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:11px;
+      backdrop-filter:blur(8px);
+    }
+
+    .reel-main{
       transform:translateY(0);
       transition:transform .35s ease, opacity .35s ease;
+      box-shadow:0 18px 50px rgba(17,17,17,.12);
     }
 
     .reel-main.is-changing{
@@ -639,7 +641,7 @@
       color:var(--bg);
     }
 
-    @media (max-width:1000px){
+    @media(max-width:1000px){
       .details-compact{
         grid-template-columns:repeat(2,1fr);
       }
@@ -663,9 +665,14 @@
       .photos-wall{
         column-count:2;
       }
+
+      .reel-carousel{
+        grid-template-columns:repeat(3, minmax(190px, 1fr));
+        gap:12px;
+      }
     }
 
-    @media (max-width:850px){
+    @media(max-width:850px){
       .hero-grid,
       .contact{
         grid-template-columns:1fr;
@@ -699,20 +706,7 @@
       }
 
       .reel-side{
-        height:auto;
-        min-height:92px;
-      }
-
-      .reel-side:first-child{
-        order:2;
-      }
-
-      .reel-main{
-        order:1;
-      }
-
-      .reel-side:last-child{
-        order:3;
+        display:none;
       }
 
       .reel-caption{
@@ -725,7 +719,7 @@
       }
     }
 
-    @media (max-width:650px){
+    @media(max-width:650px){
       .details-compact{
         grid-template-columns:1fr;
       }
@@ -849,7 +843,10 @@
             <div class="work-details">
               <p>Arc Angel UK Tour. Reading and Leeds 2024. I Was Here First UK Tour. As Everything Unfolds headline UK tour.</p>
               <div class="credit-tags">
-                <span>guitar tech</span><span>UK tour</span><span>Reading and Leeds</span><span>headline tour</span>
+                <span>guitar tech</span>
+                <span>UK tour</span>
+                <span>Reading and Leeds</span>
+                <span>headline tour</span>
               </div>
             </div>
             <div class="work-year">2023 to 2025</div>
@@ -866,7 +863,9 @@
             <div class="work-details">
               <p>South Arcade Arc Angel Tour. BBC Introducing Manchester.</p>
               <div class="credit-tags">
-                <span>touring</span><span>BBC Introducing</span><span>live guitar</span>
+                <span>touring</span>
+                <span>BBC Introducing</span>
+                <span>live guitar</span>
               </div>
             </div>
             <div class="work-year">2024 to 2025</div>
@@ -883,7 +882,9 @@
             <div class="work-details">
               <p>As December Falls Join The Club EU and UK Tour. Misery Loves Company Festival. Burn It Down Festival. No Play Festival.</p>
               <div class="credit-tags">
-                <span>EU and UK tour</span><span>festivals</span><span>session guitar</span>
+                <span>EU and UK tour</span>
+                <span>festivals</span>
+                <span>session guitar</span>
               </div>
             </div>
             <div class="work-year">2024</div>
@@ -900,7 +901,10 @@
             <div class="work-details">
               <p>Function band work across live events, weddings and private performances.</p>
               <div class="credit-tags">
-                <span>function band</span><span>live sets</span><span>dep work</span><span>events</span>
+                <span>function band</span>
+                <span>live sets</span>
+                <span>dep work</span>
+                <span>events</span>
               </div>
             </div>
             <div class="work-year">2025 to Present</div>
@@ -917,7 +921,9 @@
             <div class="work-details">
               <p>Music campaign work with clients including Atlantic Records UK.</p>
               <div class="credit-tags">
-                <span>music marketing</span><span>campaigns</span><span>Atlantic Records UK</span>
+                <span>music marketing</span>
+                <span>campaigns</span>
+                <span>Atlantic Records UK</span>
               </div>
             </div>
             <div class="work-year">2026 to Present</div>
@@ -934,7 +940,9 @@
             <div class="work-details">
               <p>Area 11 All The Lights In The Sky Tour. WSTR 2024 Tour.</p>
               <div class="credit-tags">
-                <span>touring</span><span>live guitar</span><span>session guitar</span>
+                <span>touring</span>
+                <span>live guitar</span>
+                <span>session guitar</span>
               </div>
             </div>
             <div class="work-year">2023 to 2024</div>
@@ -951,7 +959,9 @@
             <div class="work-details">
               <p>The Great Prescape Festival, Brighton.</p>
               <div class="credit-tags">
-                <span>festival</span><span>Brighton</span><span>live guitar</span>
+                <span>festival</span>
+                <span>Brighton</span>
+                <span>live guitar</span>
               </div>
             </div>
             <div class="work-year">2026</div>
@@ -968,7 +978,9 @@
             <div class="work-details">
               <p>Studio work, guitar tracking, production support and session guitar.</p>
               <div class="credit-tags">
-                <span>studio</span><span>production</span><span>session guitar</span>
+                <span>studio</span>
+                <span>production</span>
+                <span>session guitar</span>
               </div>
             </div>
             <div class="work-year">2025 to Present</div>
@@ -985,7 +997,8 @@
             <div class="work-details">
               <p>Studio guitar for I Havnt Really Laughed Like This In Months Now.</p>
               <div class="credit-tags">
-                <span>studio</span><span>session guitar</span>
+                <span>studio</span>
+                <span>session guitar</span>
               </div>
             </div>
             <div class="work-year">2024</div>
@@ -1002,7 +1015,10 @@
             <div class="work-details">
               <p>Guitar sales, customer support, product knowledge, content support, logistics, QC testing and repairs department support.</p>
               <div class="credit-tags">
-                <span>guitar sales</span><span>technical support</span><span>repairs</span><span>QC</span>
+                <span>guitar sales</span>
+                <span>technical support</span>
+                <span>repairs</span>
+                <span>QC</span>
               </div>
             </div>
             <div class="work-year">2022 to 2024</div>
@@ -1019,7 +1035,9 @@
             <div class="work-details">
               <p>Y Not Festival. Cascade headline UK tour.</p>
               <div class="credit-tags">
-                <span>festival</span><span>headline tour</span><span>live guitar</span>
+                <span>festival</span>
+                <span>headline tour</span>
+                <span>live guitar</span>
               </div>
             </div>
             <div class="work-year">2022 to 2023</div>
@@ -1036,11 +1054,11 @@
 
         <div class="watch-shell" aria-label="Video carousel">
           <div class="reel-carousel">
-            <button class="reel-side" id="prevPreview" type="button" aria-label="Previous video"></button>
+            <button class="reel-side" id="prevPreview" type="button" aria-label="Previous video preview"></button>
 
             <div class="reel-main" id="mainReel"></div>
 
-            <button class="reel-side" id="nextPreview" type="button" aria-label="Next video"></button>
+            <button class="reel-side" id="nextPreview" type="button" aria-label="Next video preview"></button>
           </div>
 
           <div class="reel-caption">
@@ -1064,18 +1082,113 @@
         </div>
 
         <div class="details-compact">
-          <div class="detail-card"><div><div class="label">DAW / Production</div><h3>Logic Pro X</h3><p>Guitar tracking, editing, production, session prep and playback exports.</p></div><div class="micro"><span>production</span><span>tracking</span><span>playback</span></div></div>
-          <div class="detail-card"><div><div class="label">DAW / Playback</div><h3>Ableton Live</h3><p>Playback sessions, click tracks, cues, stems and show file organisation.</p></div><div class="micro"><span>clicks</span><span>cues</span><span>stems</span></div></div>
-          <div class="detail-card"><div><div class="label">DAW / Editing</div><h3>Cubase</h3><p>Editing, stems, session prep and playback organisation.</p></div><div class="micro"><span>editing</span><span>stems</span><span>prep</span></div></div>
-          <div class="detail-card"><div><div class="label">Playback</div><h3>Show files</h3><p>Clicks, cues, stems, MIDI changes and practical live playback setup.</p></div><div class="micro"><span>clicks</span><span>MIDI</span><span>show prep</span></div></div>
-          <div class="detail-card"><div><div class="label">Digital guitar rig</div><h3>Quad Cortex</h3><p>Live guitar tones, presets, routing and tour ready digital rigs.</p></div><div class="micro"><span>live sound</span><span>presets</span><span>routing</span></div></div>
-          <div class="detail-card"><div><div class="label">Digital guitar rig</div><h3>Kemper</h3><p>Patches, consistent show tones and profiling based live rigs.</p></div><div class="micro"><span>patches</span><span>show tones</span></div></div>
-          <div class="detail-card"><div><div class="label">Digital guitar rig</div><h3>Line 6 units</h3><p>Patch management, digital guitar setups and live ready sounds.</p></div><div class="micro"><span>patches</span><span>rigs</span></div></div>
-          <div class="detail-card"><div><div class="label">Live audio</div><h3>X32 Rack / XR18</h3><p>Routing, rehearsal setups, IEM style workflows and playback integration.</p></div><div class="micro"><span>routing</span><span>rehearsals</span><span>playback</span></div></div>
-          <div class="detail-card"><div><div class="label">Live audio</div><h3>Allen & Heath</h3><p>Stage routing, live audio workflow and practical tech support.</p></div><div class="micro"><span>routing</span><span>live audio</span></div></div>
-          <div class="detail-card"><div><div class="label">Studio / Signal flow</div><h3>SSL</h3><p>Clean signal flow, studio workflow and session familiarity.</p></div><div class="micro"><span>signal flow</span><span>sessions</span></div></div>
-          <div class="detail-card"><div><div class="label">Guitar tech</div><h3>Stage guitars</h3><p>Changeovers, tuning stability, basic repairs and keeping sets running cleanly.</p></div><div class="micro"><span>changeovers</span><span>tuning</span><span>repairs</span></div></div>
-          <div class="detail-card"><div><div class="label">Live prep</div><h3>Show flow</h3><p>Set organisation, rig checks, transitions and practical stage problem solving.</p></div><div class="micro"><span>sets</span><span>checks</span><span>flow</span></div></div>
+          <div class="detail-card">
+            <div>
+              <div class="label">DAW / Production</div>
+              <h3>Logic Pro X</h3>
+              <p>Guitar tracking, editing, production, session prep and playback exports.</p>
+            </div>
+            <div class="micro"><span>production</span><span>tracking</span><span>playback</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">DAW / Playback</div>
+              <h3>Ableton Live</h3>
+              <p>Playback sessions, click tracks, cues, stems and show file organisation.</p>
+            </div>
+            <div class="micro"><span>clicks</span><span>cues</span><span>stems</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">DAW / Editing</div>
+              <h3>Cubase</h3>
+              <p>Editing, stems, session prep and playback organisation.</p>
+            </div>
+            <div class="micro"><span>editing</span><span>stems</span><span>prep</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Playback</div>
+              <h3>Show files</h3>
+              <p>Clicks, cues, stems, MIDI changes and practical live playback setup.</p>
+            </div>
+            <div class="micro"><span>clicks</span><span>MIDI</span><span>show prep</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Digital guitar rig</div>
+              <h3>Quad Cortex</h3>
+              <p>Live guitar tones, presets, routing and tour ready digital rigs.</p>
+            </div>
+            <div class="micro"><span>live sound</span><span>presets</span><span>routing</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Digital guitar rig</div>
+              <h3>Kemper</h3>
+              <p>Patches, consistent show tones and profiling based live rigs.</p>
+            </div>
+            <div class="micro"><span>patches</span><span>show tones</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Digital guitar rig</div>
+              <h3>Line 6 units</h3>
+              <p>Patch management, digital guitar setups and live ready sounds.</p>
+            </div>
+            <div class="micro"><span>patches</span><span>rigs</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Live audio</div>
+              <h3>X32 Rack / XR18</h3>
+              <p>Routing, rehearsal setups, IEM style workflows and playback integration.</p>
+            </div>
+            <div class="micro"><span>routing</span><span>rehearsals</span><span>playback</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Live audio</div>
+              <h3>Allen & Heath</h3>
+              <p>Stage routing, live audio workflow and practical tech support.</p>
+            </div>
+            <div class="micro"><span>routing</span><span>live audio</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Studio / Signal flow</div>
+              <h3>SSL</h3>
+              <p>Clean signal flow, studio workflow and session familiarity.</p>
+            </div>
+            <div class="micro"><span>signal flow</span><span>sessions</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Guitar tech</div>
+              <h3>Stage guitars</h3>
+              <p>Changeovers, tuning stability, basic repairs and keeping sets running cleanly.</p>
+            </div>
+            <div class="micro"><span>changeovers</span><span>tuning</span><span>repairs</span></div>
+          </div>
+
+          <div class="detail-card">
+            <div>
+              <div class="label">Live prep</div>
+              <h3>Show flow</h3>
+              <p>Set organisation, rig checks, transitions and practical stage problem solving.</p>
+            </div>
+            <div class="micro"><span>sets</span><span>checks</span><span>flow</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1121,12 +1234,12 @@
 
   <script is:inline>
     const videoItems = [
-      { playbackId: "3oM00bx8DJ01WVeSrZ1rBHnCGt7x01EDinT2yoFj6Fmido" },
-      { playbackId: "WZFBswhStjPED87pePirmR00fPIOtHW9vElxUNZDy00q00" },
-      { playbackId: "o3SUEQnAKLHahw1WyyKJlnk7fWtKyG2ahKty5Jz86XE" },
-      { playbackId: "tufJEABNMT01wLGkgkGGk5j6DgVCyVOONDVeAUlrx4Is" },
-      { playbackId: "MSv8ow9h9e9dtoT02RJWi01sPH98DqYKdN1xdXXoCoWNI" },
-      { playbackId: "fXogupp27a402VtojlPAP8KmoHtOW3eSKKJkwB6liXIs" }
+      { playbackId: "3oM00bx8DJ01WVeSrZ1rBHnCGt7x01EDinT2yoFj6Fmido", thumbTime: 2 },
+      { playbackId: "WZFBswhStjPED87pePirmR00fPIOtHW9vElxUNZDy00q00", thumbTime: 2 },
+      { playbackId: "o3SUEQnAKLHahw1WyyKJlnk7fWtKyG2ahKty5Jz86XE", thumbTime: 2 },
+      { playbackId: "tufJEABNMT01wLGkgkGGk5j6DgVCyVOONDVeAUlrx4Is", thumbTime: 2 },
+      { playbackId: "MSv8ow9h9e9dtoT02RJWi01sPH98DqYKdN1xdXXoCoWNI", thumbTime: 2 },
+      { playbackId: "fXogupp27a402VtojlPAP8KmoHtOW3eSKKJkwB6liXIs", thumbTime: 2 }
     ];
 
     const mainReel = document.getElementById("mainReel");
@@ -1151,6 +1264,10 @@
       return activeIndex === videoItems.length - 1 ? 0 : activeIndex + 1;
     }
 
+    function muxThumb(item){
+      return `https://image.mux.com/${item.playbackId}/thumbnail.jpg?time=${item.thumbTime || 2}&width=700&fit_mode=crop`;
+    }
+
     function renderDots(){
       dots.innerHTML = "";
 
@@ -1165,11 +1282,12 @@
       });
     }
 
-    function renderSide(button, index, direction){
+    function renderPreview(button, index, label){
+      const item = videoItems[index];
+
+      button.dataset.label = `${label} ${pad(index + 1)}`;
       button.innerHTML = `
-        <span class="side-kicker">${direction}</span>
-        <span class="side-number">${pad(index + 1)}</span>
-        <span class="side-action">View clip</span>
+        <img src="${muxThumb(item)}" alt="${label} video ${index + 1}" loading="lazy" />
       `;
     }
 
@@ -1192,8 +1310,8 @@
 
         count.textContent = `${pad(activeIndex + 1)} / ${pad(videoItems.length)}`;
 
-        renderSide(prevPreview, getPrevIndex(), "Previous");
-        renderSide(nextPreview, getNextIndex(), "Next");
+        renderPreview(prevPreview, getPrevIndex(), "Previous");
+        renderPreview(nextPreview, getNextIndex(), "Next");
         renderDots();
 
         requestAnimationFrame(() => {
