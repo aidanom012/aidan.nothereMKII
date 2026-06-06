@@ -380,37 +380,42 @@
       border:1px solid var(--ink);
       background:var(--card);
       overflow:hidden;
-      padding:20px;
+      padding:28px 20px 20px;
     }
 
     .reel-carousel{
       display:grid;
-      grid-template-columns:220px minmax(280px,380px) 220px;
-      gap:18px;
+      grid-template-columns:160px minmax(280px,380px) 160px;
+      gap:26px;
       align-items:center;
       justify-content:center;
+      min-height:560px;
     }
 
     .reel-side{
       aspect-ratio:9/16;
-      border:1px solid var(--ink);
+      border:1px solid rgba(17,17,17,.55);
       background:#111;
       overflow:hidden;
-      opacity:.45;
-      transform:scale(.9);
+      opacity:.72;
+      transform:scale(.82);
       cursor:pointer;
-      transition:opacity .35s ease, transform .35s ease;
+      transition:opacity .35s ease, transform .35s ease, filter .35s ease;
+      filter:grayscale(.35) contrast(.85);
+      padding:0;
     }
 
     .reel-side:hover{
-      opacity:.72;
-      transform:scale(.94);
+      opacity:1;
+      transform:scale(.88);
+      filter:grayscale(0) contrast(1);
     }
 
     .reel-side img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;
+      background:#111;
       display:block;
     }
 
@@ -676,6 +681,7 @@
       .reel-carousel{
         grid-template-columns:1fr;
         max-width:390px;
+        min-height:auto;
         margin:0 auto;
       }
 
@@ -1261,7 +1267,7 @@
     }
 
     function muxThumb(playbackId){
-      return `https://image.mux.com/${playbackId}/thumbnail.jpg?time=0&width=600&fit_mode=crop`;
+      return `https://image.mux.com/${playbackId}/thumbnail.jpg?time=2&width=500`;
     }
 
     function renderDots(){
