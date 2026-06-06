@@ -35,10 +35,7 @@
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
       color:var(--ink);
-      background:
-        radial-gradient(circle at 1px 1px, rgba(17,17,17,.055) 1px, transparent 1.5px),
-        var(--bg);
-      background-size:8px 8px, auto;
+      background:var(--bg);
       line-height:1.45;
     }
 
@@ -627,125 +624,6 @@
       color:var(--bg);
     }
 
-
-
-    /* =========================================
-       CYBER SIGILISM — STATIC SECTION PLACEMENT ONLY
-       No full-screen borders. No fixed/floating ornaments.
-    ========================================= */
-
-    .sigil-bg,
-    .page-ornaments,
-    .sigil-corner,
-    .sigil-side,
-    .floating-sigil,
-    .viewport-frame,
-    .body-ornament,
-    .global-sigil-layer{
-      display:none !important;
-    }
-
-    body::before,
-    body::after{
-      content:none !important;
-    }
-
-    .section-head-sigil{
-      align-items:end;
-    }
-
-    .section-title-with-icon{
-      display:flex;
-      align-items:center;
-      gap:18px;
-    }
-
-    .title-sigil{
-      width:28px;
-      height:28px;
-      flex:0 0 28px;
-      background-image:url('/sigil-assets/star-cluster.png');
-      background-repeat:no-repeat;
-      background-position:center;
-      background-size:contain;
-      opacity:.46;
-      transform:translateY(2px);
-      image-rendering:auto;
-    }
-
-    .section-divider-wrap{
-      display:flex;
-      justify-content:center;
-      margin:0 0 38px;
-      pointer-events:none;
-    }
-
-    .section-divider-img{
-      width:min(860px, 72%);
-      height:auto;
-      display:block;
-      opacity:.72;
-      image-rendering:auto;
-    }
-
-    .divider-ornate{
-      width:min(760px, 62%);
-      opacity:.70;
-    }
-
-    .watch-shell{
-      position:relative;
-    }
-
-    .watch-shell-corner{
-      position:absolute;
-      top:10px;
-      width:42px;
-      height:42px;
-      background-repeat:no-repeat;
-      background-size:contain;
-      background-position:center;
-      opacity:.62;
-      pointer-events:none;
-      z-index:2;
-      image-rendering:auto;
-    }
-
-    .watch-shell-corner-left{
-      left:10px;
-      background-image:url('/sigil-assets/card-corner-left.png');
-    }
-
-    .watch-shell-corner-right{
-      right:10px;
-      background-image:url('/sigil-assets/card-corner-right.png');
-    }
-
-    #watch .section-head,
-    #details .section-head,
-    #photos .section-head{
-      margin-bottom:26px;
-    }
-
-    .contact-divider{
-      margin-bottom:36px;
-    }
-
-    .work-item::before,
-    .work-item::after,
-    .detail-card::before,
-    .detail-card::after,
-    .photo-piece::before,
-    .photo-piece::after,
-    .hero-card::before,
-    .hero-card::after,
-    .about-strip::before,
-    .about-strip::after,
-    .contact-links a::before,
-    .contact-links a::after{
-      content:none !important;
-    }
-
     @media(max-width:1000px){
       .details-compact{grid-template-columns:repeat(2,1fr)}
 
@@ -800,29 +678,6 @@
       }
 
       .dots{justify-content:flex-start}
-
-      .title-sigil{
-        width:20px;
-        height:20px;
-        flex-basis:20px;
-      }
-
-      .section-divider-img{
-        width:min(92%, 620px);
-      }
-
-      .divider-ornate{
-        width:min(88%, 540px);
-      }
-
-      .watch-shell-corner{
-        width:26px;
-        height:26px;
-        top:8px;
-      }
-
-      .watch-shell-corner-left{left:8px}
-      .watch-shell-corner-right{right:8px}
     }
 
     @media(max-width:650px){
@@ -1146,17 +1001,11 @@
 
     <section id="watch">
       <div class="wrap">
-        <div class="section-head section-head-sigil">
-          <h2 class="section-title-with-icon">
-            <span class="title-sigil" aria-hidden="true"></span>
-            <span>Watch</span>
-          </h2>
+        <div class="section-head">
+          <h2>Watch</h2>
         </div>
 
         <div class="watch-shell" aria-label="Video carousel">
-          <div class="watch-shell-corner watch-shell-corner-left" aria-hidden="true"></div>
-          <div class="watch-shell-corner watch-shell-corner-right" aria-hidden="true"></div>
-
           <div class="reel-carousel">
             <button class="reel-panel reel-side" id="prevPreview" type="button" aria-label="Previous video preview"></button>
 
@@ -1180,15 +1029,8 @@
 
     <section id="details">
       <div class="wrap">
-        <div class="section-divider-wrap">
-          <img class="section-divider-img" src="/sigil-assets/divider-star.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-        </div>
-
-        <div class="section-head section-head-sigil">
-          <h2 class="section-title-with-icon">
-            <span class="title-sigil" aria-hidden="true"></span>
-            <span>Details</span>
-          </h2>
+        <div class="section-head">
+          <h2>Details</h2>
           <p class="section-note">Software, playback, guitar rigs and live tools I use for sessions, rehearsals and shows.</p>
         </div>
 
@@ -1306,11 +1148,8 @@
 
     <section id="photos">
       <div class="wrap">
-        <div class="section-head section-head-sigil">
-          <h2 class="section-title-with-icon">
-            <span class="title-sigil" aria-hidden="true"></span>
-            <span>Photos</span>
-          </h2>
+        <div class="section-head">
+          <h2>Photos</h2>
         </div>
 
         <div class="photos-wall">
@@ -1331,10 +1170,6 @@
     </section>
 
     <section id="contact">
-      <div class="section-divider-wrap contact-divider">
-        <img class="section-divider-img divider-ornate" src="/sigil-assets/divider-altar.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-      </div>
-
       <div class="wrap contact">
         <div>
           <div class="eyebrow">Available for sessions, touring and studio work</div>
