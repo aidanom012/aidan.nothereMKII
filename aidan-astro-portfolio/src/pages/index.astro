@@ -380,83 +380,56 @@
       border:1px solid var(--ink);
       background:var(--card);
       overflow:hidden;
-      padding:18px 0 22px;
+      padding:20px;
     }
 
-    .video-stage{
-      overflow:hidden;
+    .reel-carousel{
+      display:grid;
+      grid-template-columns:220px minmax(280px,380px) 220px;
+      gap:18px;
+      align-items:center;
+      justify-content:center;
     }
 
-    .video-track{
-      display:flex;
-      gap:14px;
-      padding:0 18px;
-      transition:transform .55s cubic-bezier(.19,1,.22,1);
-      will-change:transform;
-    }
-
-    .video-slide{
-      flex:0 0 min(340px,74vw);
+    .reel-side{
       aspect-ratio:9/16;
       border:1px solid var(--ink);
       background:#111;
-      position:relative;
       overflow:hidden;
-      opacity:.38;
-      transform:scale(.9) translateY(16px);
-      transition:opacity .35s ease, transform .55s cubic-bezier(.19,1,.22,1), filter .35s ease;
-      filter:grayscale(.25) contrast(.9);
+      opacity:.45;
+      transform:scale(.9);
       cursor:pointer;
+      transition:opacity .35s ease, transform .35s ease;
     }
 
-    .video-slide.is-active{
-      opacity:1;
-      transform:scale(1) translateY(0);
-      filter:grayscale(0) contrast(1.04);
-      z-index:2;
-      cursor:default;
+    .reel-side:hover{
+      opacity:.72;
+      transform:scale(.94);
     }
 
-    .video-slide.is-near{
-      opacity:.68;
-      transform:scale(.94) translateY(8px);
-    }
-
-    .video-thumb{
-      position:absolute;
-      inset:0;
+    .reel-side img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
     }
 
-    .video-play{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      border:0;
-      background:linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.32));
-      color:rgba(244,241,234,.92);
-      cursor:pointer;
+    .reel-main{
+      aspect-ratio:9/16;
+      border:1px solid var(--ink);
+      background:#111;
+      overflow:hidden;
+      position:relative;
+      transform:translateY(0);
+      transition:transform .35s ease, opacity .35s ease;
     }
 
-    .video-play span{
-      display:inline-grid;
-      place-items:center;
-      width:68px;
-      height:68px;
-      border-radius:999px;
-      border:1px solid rgba(244,241,234,.78);
-      background:rgba(0,0,0,.24);
-      font-size:22px;
-      padding-left:4px;
+    .reel-main.is-changing{
+      opacity:.35;
+      transform:translateY(8px) scale(.985);
     }
 
     .video-player{
-      position:absolute;
-      inset:0;
       width:100%;
       height:100%;
       display:block;
@@ -469,19 +442,24 @@
       --media-control-hover-background:rgba(0,0,0,.36);
     }
 
+    .reel-caption{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      border-top:1px solid var(--line);
+      margin-top:20px;
+      padding-top:18px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
+    }
+
     .carousel-controls{
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:18px 18px 0;
-      border-top:1px solid var(--line);
-      margin-top:18px;
-    }
-
-    .arrow-group{
-      display:flex;
-      gap:8px;
+      gap:10px;
     }
 
     .carousel-btn{
@@ -504,11 +482,10 @@
     }
 
     .carousel-count{
-      font-size:12px;
       color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
       white-space:nowrap;
+      min-width:70px;
+      text-align:center;
     }
 
     .dots{
@@ -696,9 +673,19 @@
         padding:52px 0;
       }
 
-      .carousel-controls{
-        align-items:flex-start;
+      .reel-carousel{
+        grid-template-columns:1fr;
+        max-width:390px;
+        margin:0 auto;
+      }
+
+      .reel-side{
+        display:none;
+      }
+
+      .reel-caption{
         flex-direction:column;
+        align-items:flex-start;
       }
 
       .dots{
@@ -1062,19 +1049,22 @@
         </div>
 
         <div class="watch-shell" aria-label="Video carousel">
-          <div class="video-stage" id="videoStage">
-            <div class="video-track" id="videoTrack"></div>
+          <div class="reel-carousel">
+            <button class="reel-side" id="prevPreview" type="button" aria-label="Previous video preview"></button>
+
+            <div class="reel-main" id="mainReel"></div>
+
+            <button class="reel-side" id="nextPreview" type="button" aria-label="Next video preview"></button>
           </div>
 
-          <div class="carousel-controls">
-            <div class="arrow-group">
+          <div class="reel-caption">
+            <div class="carousel-controls">
               <button class="carousel-btn" id="prevVideo" type="button" aria-label="Previous video">←</button>
+              <div class="carousel-count" id="videoCount">04 / 06</div>
               <button class="carousel-btn" id="nextVideo" type="button" aria-label="Next video">→</button>
             </div>
 
             <div class="dots" id="videoDots" aria-label="Video navigation dots"></div>
-
-            <div class="carousel-count" id="videoCount">04 / 06</div>
           </div>
         </div>
       </div>
@@ -1206,53 +1196,18 @@
         </div>
 
         <div class="photos-wall">
-          <figure class="photo-piece">
-            <img src="/images/live-6.webp" alt="Aidan Mansell performing to a crowd" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-8.webp" alt="Aidan Mansell on stage with red guitar" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-5.webp" alt="Aidan Mansell side stage" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-4.webp" alt="Aidan Mansell silhouetted on stage" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-12.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-1.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-14.webp" alt="Aidan Mansell live with drums" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-7.webp" alt="Aidan Mansell live under green lights" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-13.webp" alt="Aidan Mansell live stage photo" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-3.webp" alt="Aidan Mansell close up guitar performance" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-10.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" />
-          </figure>
-
-          <figure class="photo-piece">
-            <img src="/images/live-11.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" />
-          </figure>
+          <figure class="photo-piece"><img src="/images/live-6.webp" alt="Aidan Mansell performing to a crowd" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-8.webp" alt="Aidan Mansell on stage with red guitar" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-5.webp" alt="Aidan Mansell side stage" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-4.webp" alt="Aidan Mansell silhouetted on stage" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-12.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-1.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-14.webp" alt="Aidan Mansell live with drums" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-7.webp" alt="Aidan Mansell live under green lights" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-13.webp" alt="Aidan Mansell live stage photo" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-3.webp" alt="Aidan Mansell close up guitar performance" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-10.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" /></figure>
+          <figure class="photo-piece"><img src="/images/live-11.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" /></figure>
         </div>
       </div>
     </section>
@@ -1273,7 +1228,7 @@
     </section>
   </main>
 
-  <script>
+  <script is:inline>
     const videoItems = [
       { playbackId: "3oM00bx8DJ01WVeSrZ1rBHnCGt7x01EDinT2yoFj6Fmido" },
       { playbackId: "WZFBswhStjPED87pePirmR00fPIOtHW9vElxUNZDy00q00" },
@@ -1283,12 +1238,13 @@
       { playbackId: "fXogupp27a402VtojlPAP8KmoHtOW3eSKKJkwB6liXIs" }
     ];
 
-    const track = document.getElementById("videoTrack");
+    const mainReel = document.getElementById("mainReel");
+    const prevPreview = document.getElementById("prevPreview");
+    const nextPreview = document.getElementById("nextPreview");
     const dots = document.getElementById("videoDots");
     const count = document.getElementById("videoCount");
     const prev = document.getElementById("prevVideo");
     const next = document.getElementById("nextVideo");
-    const stage = document.getElementById("videoStage");
 
     let activeIndex = 3;
 
@@ -1296,95 +1252,67 @@
       return String(num).padStart(2, "0");
     }
 
+    function getPrevIndex(){
+      return activeIndex === 0 ? videoItems.length - 1 : activeIndex - 1;
+    }
+
+    function getNextIndex(){
+      return activeIndex === videoItems.length - 1 ? 0 : activeIndex + 1;
+    }
+
     function muxThumb(playbackId){
       return `https://image.mux.com/${playbackId}/thumbnail.jpg?time=0&width=600&fit_mode=crop`;
     }
 
-    function buildCarousel(){
-      if(!track || !dots || !count || !prev || !next || !stage) return;
-
-      track.innerHTML = "";
+    function renderDots(){
       dots.innerHTML = "";
 
       videoItems.forEach((item, index) => {
-        const slide = document.createElement("div");
-        slide.className = "video-slide";
-        slide.dataset.index = index;
-
-        slide.innerHTML = `
-          <img class="video-thumb" src="${muxThumb(item.playbackId)}" alt="Aidan Mansell video thumbnail" loading="lazy" />
-          <button class="video-play" type="button" aria-label="Play video"><span>▶</span></button>
-        `;
-
-        slide.addEventListener("click", () => {
-          goToVideo(index);
-        });
-
-        track.appendChild(slide);
-
         const dot = document.createElement("button");
         dot.className = "dot";
         dot.type = "button";
         dot.setAttribute("aria-label", "Go to video " + (index + 1));
+        dot.classList.toggle("is-active", index === activeIndex);
         dot.addEventListener("click", () => goToVideo(index));
         dots.appendChild(dot);
       });
-
-      updateCarousel(false);
-      loadActiveVideo();
     }
 
-    function loadActiveVideo(){
-      const slides = Array.from(track.querySelectorAll(".video-slide"));
+    function renderPreview(button, index){
+      const item = videoItems[index];
 
-      slides.forEach((slide, index) => {
-        const item = videoItems[index];
-
-        if(index === activeIndex){
-          slide.innerHTML = `
-            <mux-player
-              class="video-player"
-              playback-id="${item.playbackId}"
-              metadata-video-title="Aidan Mansell clip ${index + 1}"
-              stream-type="on-demand"
-              controls
-              preload="metadata"
-            ></mux-player>
-          `;
-        } else {
-          slide.innerHTML = `
-            <img class="video-thumb" src="${muxThumb(item.playbackId)}" alt="Aidan Mansell video thumbnail" loading="lazy" />
-            <button class="video-play" type="button" aria-label="Play video"><span>▶</span></button>
-          `;
-        }
-      });
+      button.innerHTML = `
+        <img src="${muxThumb(item.playbackId)}" alt="Video preview ${index + 1}" loading="lazy" />
+      `;
     }
 
-    function updateCarousel(animate = true){
-      const slides = Array.from(track.querySelectorAll(".video-slide"));
-      const dotButtons = Array.from(dots.querySelectorAll(".dot"));
+    function renderMain(){
+      const item = videoItems[activeIndex];
 
-      slides.forEach((slide, index) => {
-        slide.classList.toggle("is-active", index === activeIndex);
-        slide.classList.toggle("is-near", Math.abs(index - activeIndex) === 1);
-      });
+      mainReel.classList.add("is-changing");
 
-      dotButtons.forEach((dot, index) => {
-        dot.classList.toggle("is-active", index === activeIndex);
-      });
+      setTimeout(() => {
+        mainReel.innerHTML = `
+          <mux-player
+            class="video-player"
+            playback-id="${item.playbackId}"
+            metadata-video-title="Aidan Mansell clip ${activeIndex + 1}"
+            stream-type="on-demand"
+            controls
+            preload="metadata"
+          ></mux-player>
+        `;
 
-      count.textContent = `${pad(activeIndex + 1)} / ${pad(videoItems.length)}`;
+        count.textContent = `${pad(activeIndex + 1)} / ${pad(videoItems.length)}`;
 
-      const activeSlide = slides[activeIndex];
-      if(!activeSlide) return;
+        renderPreview(prevPreview, getPrevIndex());
+        renderPreview(nextPreview, getNextIndex());
+        renderDots();
 
-      const stageWidth = stage.offsetWidth;
-      const slideLeft = activeSlide.offsetLeft;
-      const slideWidth = activeSlide.offsetWidth;
-      const move = slideLeft - (stageWidth / 2) + (slideWidth / 2);
-
-      track.style.transition = animate ? "transform .55s cubic-bezier(.19,1,.22,1)" : "none";
-      track.style.transform = `translateX(${-move}px)`;
+        requestAnimationFrame(() => {
+          mainReel.classList.remove("is-changing");
+        });
+      }, 130);
     }
 
     function goToVideo(index){
@@ -1392,22 +1320,20 @@
       if(index >= videoItems.length) index = 0;
 
       activeIndex = index;
-      updateCarousel(true);
-      loadActiveVideo();
-      updateCarousel(false);
+      renderMain();
     }
 
     prev.addEventListener("click", () => goToVideo(activeIndex - 1));
     next.addEventListener("click", () => goToVideo(activeIndex + 1));
-
-    window.addEventListener("resize", () => updateCarousel(false));
+    prevPreview.addEventListener("click", () => goToVideo(getPrevIndex()));
+    nextPreview.addEventListener("click", () => goToVideo(getNextIndex()));
 
     document.addEventListener("keydown", (event) => {
       if(event.key === "ArrowLeft") goToVideo(activeIndex - 1);
       if(event.key === "ArrowRight") goToVideo(activeIndex + 1);
     });
 
-    buildCarousel();
+    renderMain();
   </script>
 </body>
 </html>
