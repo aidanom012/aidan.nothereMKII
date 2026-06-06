@@ -12,7 +12,10 @@
 
   <link rel="preload" as="image" href="/images/hero.webp" />
   <link rel="preconnect" href="https://image.mux.com" />
+  <link rel="preconnect" href="https://stream.mux.com" />
   <link rel="preconnect" href="https://player.mux.com" />
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@mux/mux-player@3/dist/mux-player.mjs"></script>
 
   <style>
     :root{
@@ -26,7 +29,10 @@
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+
+    html{
+      scroll-behavior:smooth;
+    }
 
     body{
       margin:0;
@@ -36,8 +42,15 @@
       line-height:1.45;
     }
 
-    a{color:inherit;text-decoration:none}
-    img{width:100%;display:block}
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
 
     .wrap{
       max-width:var(--max);
@@ -50,7 +63,7 @@
       top:0;
       z-index:20;
       backdrop-filter:blur(12px);
-      background:rgba(244,241,234,.88);
+      background:rgba(244,241,234,.9);
       border-bottom:1px solid var(--line);
     }
 
@@ -77,7 +90,9 @@
       color:var(--muted);
     }
 
-    .navlinks a:hover{color:var(--ink)}
+    .navlinks a:hover{
+      color:var(--ink);
+    }
 
     .hero{
       padding:72px 0 42px;
@@ -162,7 +177,9 @@
       color:var(--ink);
     }
 
-    .button:hover{opacity:.82}
+    .button:hover{
+      opacity:.82;
+    }
 
     .stats{
       display:grid;
@@ -308,7 +325,9 @@
       letter-spacing:.13em;
     }
 
-    .work-details{padding:18px}
+    .work-details{
+      padding:18px;
+    }
 
     .work-item p{
       margin:0;
@@ -358,7 +377,6 @@
     }
 
     .watch-shell{
-      position:relative;
       border:1px solid var(--ink);
       background:var(--card);
       overflow:hidden;
@@ -367,17 +385,13 @@
 
     .video-stage{
       overflow:hidden;
-      touch-action:pan-y;
-      cursor:grab;
     }
-
-    .video-stage:active{cursor:grabbing}
 
     .video-track{
       display:flex;
       gap:14px;
       padding:0 18px;
-      transition:transform .62s cubic-bezier(.19,1,.22,1);
+      transition:transform .55s cubic-bezier(.19,1,.22,1);
       will-change:transform;
     }
 
@@ -388,10 +402,11 @@
       background:#111;
       position:relative;
       overflow:hidden;
-      opacity:.42;
-      transform:scale(.9) translateY(18px);
-      transition:opacity .45s ease, transform .62s cubic-bezier(.19,1,.22,1), filter .45s ease;
-      filter:grayscale(.22) contrast(.92);
+      opacity:.38;
+      transform:scale(.9) translateY(16px);
+      transition:opacity .35s ease, transform .55s cubic-bezier(.19,1,.22,1), filter .35s ease;
+      filter:grayscale(.25) contrast(.9);
+      cursor:pointer;
     }
 
     .video-slide.is-active{
@@ -399,23 +414,21 @@
       transform:scale(1) translateY(0);
       filter:grayscale(0) contrast(1.04);
       z-index:2;
+      cursor:default;
     }
 
     .video-slide.is-near{
       opacity:.68;
-      transform:scale(.94) translateY(10px);
+      transform:scale(.94) translateY(8px);
     }
 
-    .video-thumb,
-    .video-frame{
+    .video-thumb{
       position:absolute;
       inset:0;
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
-      border:0;
-      background:#111;
     }
 
     .video-play{
@@ -424,7 +437,7 @@
       display:grid;
       place-items:center;
       border:0;
-      background:linear-gradient(to bottom, rgba(0,0,0,.05), rgba(0,0,0,.3));
+      background:linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.32));
       color:rgba(244,241,234,.92);
       cursor:pointer;
     }
@@ -441,8 +454,19 @@
       padding-left:4px;
     }
 
-    .video-play:hover span{
-      background:rgba(244,241,234,.16);
+    .video-player{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+      background:#111;
+      --media-object-fit:cover;
+      --media-object-position:center;
+      --media-primary-color:#f4f1ea;
+      --media-secondary-color:#111111;
+      --media-control-background:rgba(0,0,0,.22);
+      --media-control-hover-background:rgba(0,0,0,.36);
     }
 
     .carousel-controls{
@@ -566,64 +590,25 @@
       white-space:nowrap;
     }
 
-    .photo-editorial{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:14px;
-      align-items:stretch;
+    .photos-wall{
+      column-count:3;
+      column-gap:14px;
     }
 
-    .photo-card{
-      margin:0;
+    .photo-piece{
+      break-inside:avoid;
+      margin:0 0 14px;
       border:1px solid var(--ink);
       background:var(--soft);
       overflow:hidden;
-      min-height:220px;
     }
 
-    .photo-card img{
+    .photo-piece img{
       width:100%;
-      height:100%;
-      object-fit:cover;
+      height:auto;
       display:block;
-      filter:contrast(1.06) saturate(.94);
-    }
-
-    .photo-large{
-      grid-column:span 7;
-      height:520px;
-    }
-
-    .photo-wide{
-      grid-column:span 5;
-      height:250px;
-    }
-
-    .photo-tall{
-      grid-column:span 6;
-      height:430px;
-    }
-
-    .photo-half{
-      grid-column:span 6;
-      height:360px;
-    }
-
-    .photo-third{
-      grid-column:span 4;
-      height:260px;
-    }
-
-    .pos-top img{
-      object-position:center top;
-    }
-
-    .pos-center img{
-      object-position:center center;
-    }
-
-    .pos-left img{
-      object-position:left center;
+      object-fit:contain;
+      filter:contrast(1.04) saturate(.96);
     }
 
     .contact{
@@ -633,7 +618,9 @@
       align-items:end;
     }
 
-    .contact h2{font-size:clamp(48px,8vw,104px)}
+    .contact h2{
+      font-size:clamp(48px,8vw,104px);
+    }
 
     .contact-links{
       display:grid;
@@ -658,46 +645,79 @@
     }
 
     @media (max-width:1000px){
-      .details-compact{grid-template-columns:repeat(2,1fr)}
-      .work-item{grid-template-columns:1fr}
-      .work-main{border-right:0;border-bottom:1px solid var(--line)}
-      .work-year{border-left:0;border-top:1px solid var(--line);justify-content:flex-start;text-align:left}
+      .details-compact{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .work-item{
+        grid-template-columns:1fr;
+      }
+
+      .work-main{
+        border-right:0;
+        border-bottom:1px solid var(--line);
+      }
+
+      .work-year{
+        border-left:0;
+        border-top:1px solid var(--line);
+        justify-content:flex-start;
+        text-align:left;
+      }
+
+      .photos-wall{
+        column-count:2;
+      }
     }
 
     @media (max-width:850px){
       .hero-grid,
-      .contact{grid-template-columns:1fr}
-
-      .hero-card img{height:360px}
-      .stats{grid-template-columns:repeat(2,1fr)}
-      .about-strip{grid-template-columns:1fr}
-      .navlinks{display:none}
-      section{padding:52px 0}
-      .carousel-controls{align-items:flex-start;flex-direction:column}
-      .dots{justify-content:flex-start}
-
-      .photo-editorial{
+      .contact{
         grid-template-columns:1fr;
       }
 
-      .photo-large,
-      .photo-wide,
-      .photo-tall,
-      .photo-half,
-      .photo-third{
-        grid-column:auto;
-        height:auto;
+      .hero-card img{
+        height:360px;
       }
 
-      .photo-card img{
-        height:auto;
-        object-fit:contain;
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .about-strip{
+        grid-template-columns:1fr;
+      }
+
+      .navlinks{
+        display:none;
+      }
+
+      section{
+        padding:52px 0;
+      }
+
+      .carousel-controls{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .dots{
+        justify-content:flex-start;
       }
     }
 
     @media (max-width:650px){
-      .details-compact{grid-template-columns:1fr}
-      .contact-links a{flex-direction:column}
+      .details-compact{
+        grid-template-columns:1fr;
+      }
+
+      .contact-links a{
+        flex-direction:column;
+      }
+
+      .photos-wall{
+        column-count:1;
+      }
     }
   </style>
 </head>
@@ -807,12 +827,17 @@
               </div>
               <div class="credit-label">Tour / Festival / Tech</div>
             </div>
+
             <div class="work-details">
               <p>Arc Angel UK Tour. Reading and Leeds 2024. I Was Here First UK Tour. As Everything Unfolds headline UK tour.</p>
               <div class="credit-tags">
-                <span>guitar tech</span><span>UK tour</span><span>Reading and Leeds</span><span>headline tour</span>
+                <span>guitar tech</span>
+                <span>UK tour</span>
+                <span>Reading and Leeds</span>
+                <span>headline tour</span>
               </div>
             </div>
+
             <div class="work-year">2023 to 2025</div>
           </div>
 
@@ -824,12 +849,16 @@
               </div>
               <div class="credit-label">Live / Session</div>
             </div>
+
             <div class="work-details">
               <p>South Arcade Arc Angel Tour. BBC Introducing Manchester.</p>
               <div class="credit-tags">
-                <span>touring</span><span>BBC Introducing</span><span>live guitar</span>
+                <span>touring</span>
+                <span>BBC Introducing</span>
+                <span>live guitar</span>
               </div>
             </div>
+
             <div class="work-year">2024 to 2025</div>
           </div>
 
@@ -841,12 +870,16 @@
               </div>
               <div class="credit-label">Tour / Festival</div>
             </div>
+
             <div class="work-details">
               <p>As December Falls Join The Club EU and UK Tour. Misery Loves Company Festival. Burn It Down Festival. No Play Festival.</p>
               <div class="credit-tags">
-                <span>EU and UK tour</span><span>festivals</span><span>session guitar</span>
+                <span>EU and UK tour</span>
+                <span>festivals</span>
+                <span>session guitar</span>
               </div>
             </div>
+
             <div class="work-year">2024</div>
           </div>
 
@@ -858,12 +891,17 @@
               </div>
               <div class="credit-label">Function / Dep work</div>
             </div>
+
             <div class="work-details">
               <p>Function band work across live events, weddings and private performances.</p>
               <div class="credit-tags">
-                <span>function band</span><span>live sets</span><span>dep work</span><span>events</span>
+                <span>function band</span>
+                <span>live sets</span>
+                <span>dep work</span>
+                <span>events</span>
               </div>
             </div>
+
             <div class="work-year">2025 to Present</div>
           </div>
 
@@ -875,12 +913,16 @@
               </div>
               <div class="credit-label">Music marketing</div>
             </div>
+
             <div class="work-details">
               <p>Music campaign work with clients including Atlantic Records UK.</p>
               <div class="credit-tags">
-                <span>music marketing</span><span>campaigns</span><span>Atlantic Records UK</span>
+                <span>music marketing</span>
+                <span>campaigns</span>
+                <span>Atlantic Records UK</span>
               </div>
             </div>
+
             <div class="work-year">2026 to Present</div>
           </div>
 
@@ -892,12 +934,16 @@
               </div>
               <div class="credit-label">Touring</div>
             </div>
+
             <div class="work-details">
               <p>Area 11 All The Lights In The Sky Tour. WSTR 2024 Tour.</p>
               <div class="credit-tags">
-                <span>touring</span><span>live guitar</span><span>session guitar</span>
+                <span>touring</span>
+                <span>live guitar</span>
+                <span>session guitar</span>
               </div>
             </div>
+
             <div class="work-year">2023 to 2024</div>
           </div>
 
@@ -909,12 +955,16 @@
               </div>
               <div class="credit-label">Festival</div>
             </div>
+
             <div class="work-details">
               <p>The Great Prescape Festival, Brighton.</p>
               <div class="credit-tags">
-                <span>festival</span><span>Brighton</span><span>live guitar</span>
+                <span>festival</span>
+                <span>Brighton</span>
+                <span>live guitar</span>
               </div>
             </div>
+
             <div class="work-year">2026</div>
           </div>
 
@@ -926,12 +976,16 @@
               </div>
               <div class="credit-label">Studio</div>
             </div>
+
             <div class="work-details">
               <p>Studio work, guitar tracking, production support and session guitar.</p>
               <div class="credit-tags">
-                <span>studio</span><span>production</span><span>session guitar</span>
+                <span>studio</span>
+                <span>production</span>
+                <span>session guitar</span>
               </div>
             </div>
+
             <div class="work-year">2025 to Present</div>
           </div>
 
@@ -943,12 +997,15 @@
               </div>
               <div class="credit-label">Studio</div>
             </div>
+
             <div class="work-details">
               <p>Studio guitar for I Havnt Really Laughed Like This In Months Now.</p>
               <div class="credit-tags">
-                <span>studio</span><span>session guitar</span>
+                <span>studio</span>
+                <span>session guitar</span>
               </div>
             </div>
+
             <div class="work-year">2024</div>
           </div>
 
@@ -960,12 +1017,17 @@
               </div>
               <div class="credit-label">Industry / Retail</div>
             </div>
+
             <div class="work-details">
               <p>Guitar sales, customer support, product knowledge, content support, logistics, QC testing and repairs department support.</p>
               <div class="credit-tags">
-                <span>guitar sales</span><span>technical support</span><span>repairs</span><span>QC</span>
+                <span>guitar sales</span>
+                <span>technical support</span>
+                <span>repairs</span>
+                <span>QC</span>
               </div>
             </div>
+
             <div class="work-year">2022 to 2024</div>
           </div>
 
@@ -977,12 +1039,16 @@
               </div>
               <div class="credit-label">Band / Touring</div>
             </div>
+
             <div class="work-details">
               <p>Y Not Festival. Cascade headline UK tour.</p>
               <div class="credit-tags">
-                <span>festival</span><span>headline tour</span><span>live guitar</span>
+                <span>festival</span>
+                <span>headline tour</span>
+                <span>live guitar</span>
               </div>
             </div>
+
             <div class="work-year">2022 to 2023</div>
           </div>
         </div>
@@ -1139,45 +1205,53 @@
           <h2>Photos</h2>
         </div>
 
-        <div class="photo-editorial">
-          <figure class="photo-card photo-large pos-center">
+        <div class="photos-wall">
+          <figure class="photo-piece">
             <img src="/images/live-6.webp" alt="Aidan Mansell performing to a crowd" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-wide pos-top">
+          <figure class="photo-piece">
             <img src="/images/live-8.webp" alt="Aidan Mansell on stage with red guitar" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-tall pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-5.webp" alt="Aidan Mansell side stage" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-tall pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-4.webp" alt="Aidan Mansell silhouetted on stage" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-wide pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-12.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-half pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-1.webp" alt="Aidan Mansell playing guitar live" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-half pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-14.webp" alt="Aidan Mansell live with drums" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-third pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-7.webp" alt="Aidan Mansell live under green lights" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-third pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-13.webp" alt="Aidan Mansell live stage photo" loading="lazy" decoding="async" />
           </figure>
 
-          <figure class="photo-card photo-third pos-center">
+          <figure class="photo-piece">
             <img src="/images/live-3.webp" alt="Aidan Mansell close up guitar performance" loading="lazy" decoding="async" />
+          </figure>
+
+          <figure class="photo-piece">
+            <img src="/images/live-10.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" />
+          </figure>
+
+          <figure class="photo-piece">
+            <img src="/images/live-11.webp" alt="Aidan Mansell live guitar performance" loading="lazy" decoding="async" />
           </figure>
         </div>
       </div>
@@ -1217,9 +1291,6 @@
     const stage = document.getElementById("videoStage");
 
     let activeIndex = 3;
-    let startX = 0;
-    let isDragging = false;
-    let didDrag = false;
 
     function pad(num){
       return String(num).padStart(2, "0");
@@ -1227,10 +1298,6 @@
 
     function muxThumb(playbackId){
       return `https://image.mux.com/${playbackId}/thumbnail.jpg?time=0&width=600&fit_mode=crop`;
-    }
-
-    function muxPlayer(playbackId){
-      return `https://player.mux.com/${playbackId}?accent-color=%23f4f1ea&metadata-video-title=Aidan%20Mansell%20clip`;
     }
 
     function buildCarousel(){
@@ -1250,13 +1317,7 @@
         `;
 
         slide.addEventListener("click", () => {
-          if(didDrag) return;
-
-          if(index === activeIndex){
-            loadVideo(index);
-          } else {
-            goToVideo(index);
-          }
+          goToVideo(index);
         });
 
         track.appendChild(slide);
@@ -1264,42 +1325,33 @@
         const dot = document.createElement("button");
         dot.className = "dot";
         dot.type = "button";
-        dot.setAttribute("aria-label", `Go to video ${index + 1}`);
+        dot.setAttribute("aria-label", "Go to video " + (index + 1));
         dot.addEventListener("click", () => goToVideo(index));
         dots.appendChild(dot);
       });
 
       updateCarousel(false);
-      loadVideo(activeIndex);
+      loadActiveVideo();
     }
 
-    function loadVideo(index){
-      const slides = [...track.querySelectorAll(".video-slide")];
-      const slide = slides[index];
-      const item = videoItems[index];
-
-      if(!slide || !item) return;
-
-      slide.innerHTML = `
-        <iframe
-          class="video-frame"
-          src="${muxPlayer(item.playbackId)}"
-          title="Aidan Mansell video clip ${index + 1}"
-          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      `;
-    }
-
-    function resetInactiveVideos(){
-      const slides = [...track.querySelectorAll(".video-slide")];
+    function loadActiveVideo(){
+      const slides = Array.from(track.querySelectorAll(".video-slide"));
 
       slides.forEach((slide, index) => {
-        if(index === activeIndex) return;
-
         const item = videoItems[index];
 
-        if(slide.querySelector("iframe")){
+        if(index === activeIndex){
+          slide.innerHTML = `
+            <mux-player
+              class="video-player"
+              playback-id="${item.playbackId}"
+              metadata-video-title="Aidan Mansell clip ${index + 1}"
+              stream-type="on-demand"
+              controls
+              preload="metadata"
+            ></mux-player>
+          `;
+        } else {
           slide.innerHTML = `
             <img class="video-thumb" src="${muxThumb(item.playbackId)}" alt="Aidan Mansell video thumbnail" loading="lazy" />
             <button class="video-play" type="button" aria-label="Play video"><span>▶</span></button>
@@ -1309,8 +1361,8 @@
     }
 
     function updateCarousel(animate = true){
-      const slides = [...track.querySelectorAll(".video-slide")];
-      const dotButtons = [...dots.querySelectorAll(".dot")];
+      const slides = Array.from(track.querySelectorAll(".video-slide"));
+      const dotButtons = Array.from(dots.querySelectorAll(".dot"));
 
       slides.forEach((slide, index) => {
         slide.classList.toggle("is-active", index === activeIndex);
@@ -1331,10 +1383,8 @@
       const slideWidth = activeSlide.offsetWidth;
       const move = slideLeft - (stageWidth / 2) + (slideWidth / 2);
 
-      track.style.transition = animate ? "transform .62s cubic-bezier(.19,1,.22,1)" : "none";
+      track.style.transition = animate ? "transform .55s cubic-bezier(.19,1,.22,1)" : "none";
       track.style.transform = `translateX(${-move}px)`;
-
-      resetInactiveVideos();
     }
 
     function goToVideo(index){
@@ -1343,45 +1393,14 @@
 
       activeIndex = index;
       updateCarousel(true);
-      loadVideo(activeIndex);
+      loadActiveVideo();
+      updateCarousel(false);
     }
 
     prev.addEventListener("click", () => goToVideo(activeIndex - 1));
     next.addEventListener("click", () => goToVideo(activeIndex + 1));
 
     window.addEventListener("resize", () => updateCarousel(false));
-
-    stage.addEventListener("pointerdown", (event) => {
-      isDragging = true;
-      didDrag = false;
-      startX = event.clientX;
-      stage.setPointerCapture(event.pointerId);
-    });
-
-    stage.addEventListener("pointermove", (event) => {
-      if(!isDragging) return;
-
-      if(Math.abs(event.clientX - startX) > 8){
-        didDrag = true;
-      }
-    });
-
-    stage.addEventListener("pointerup", (event) => {
-      if(!isDragging) return;
-
-      isDragging = false;
-
-      const delta = event.clientX - startX;
-
-      if(Math.abs(delta) > 45){
-        if(delta < 0) goToVideo(activeIndex + 1);
-        else goToVideo(activeIndex - 1);
-      }
-
-      setTimeout(() => {
-        didDrag = false;
-      }, 50);
-    });
 
     document.addEventListener("keydown", (event) => {
       if(event.key === "ArrowLeft") goToVideo(activeIndex - 1);
